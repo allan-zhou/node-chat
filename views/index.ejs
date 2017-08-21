@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Socket.IO Chat Example</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <div class="pages">
+    <div class="chat-page">
+      <h1 id="title"></h1>
+      <div class="chatArea">
+        <ul class="messages"></ul>
+        <div class="typing"></div>
+      </div>
+      <label id="usernameLabel"></label>
+      <input class="inputMessage" placeholder="请输入要发送的消息..." onkeydown="typingDown()" onkeyup="typingUp()"/>
+      <input id="send" type="button" value="发送" onclick="sendMessage()" >
+    </div>
+    <div class="login-page">
+      <div class="form">
+        <h3 class="title">请输入你的昵称</h3>
+        <input class="usernameInput" type="text" maxlength="14" />
+        <select id="rooms">
+          <option value="room001">房间001</option>
+          <option value="room002">房间002</option>
+        </select>
+        <input id="login" type="button" value="确定" onclick="login()">
+      </div>
+    </div>
+  </div>
+
+  <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/javascripts/chat.js"></script>
+</body>
+</html>
