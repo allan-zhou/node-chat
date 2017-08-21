@@ -26,7 +26,7 @@ function login() {
 
   socket.emit('join', { username: username, room: room });
 
-  $title.text(room.name);
+  $title.html(room.name);
   $usernameInput.val('');
 }
 
@@ -37,28 +37,35 @@ function sendMessage() {
   $inputMessage.val('');
 }
 
-function typingDown() {
-  socket.emit('typingDown', { username: username, room: room, });
-}
-
 function typingUp() {
   socket.emit('typingUp', { username: username, room: room, });
 }
 
-socket.on('join', (msg) => {
+socket.on('join', (data) => {
+  let msg = `${data.username} ${data.time}:加入了房间 ${data.room.name}`;
+  $messages.append('<li>' + msg + '</li>');
+  $title.html(`${data.room.name}(${data.room.userCount})`)
+});
+
+socket.on('leave', (data) => {
+  let msg = `${data.username} ${data.time}:离开了房间 ${data.room.name}`;
+  $messages.append('<li>' + msg + '</li>');
+  $title.html(`${data.room.name}(${data.room.userCount})`)
+});
+
+socket.on('sendMessage', (data) => {
+  let msg = `${data.username} ${data.time}：${data.msg}`
   $messages.append('<li>' + msg + '</li>');
 });
 
-socket.on('sendMessage', (msg) => {
-  $messages.append('<li>' + msg + '</li>');
-});
-
-socket.on('typingDown', (msg) => {
+socket.on('typingDown', (data) => {
   $typing.html(msg);
   $typing.fadeIn();
 });
 
-socket.on('typingUp', (msg) => {
+socket.on('typingUp', (data) => {
+  let msg = `${data.username} 正在输入...`
   $typing.html(msg);
-  $typing.fadeOut();
+  $typing.fadeOut(500);
 });
+
